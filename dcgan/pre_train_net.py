@@ -93,5 +93,5 @@ def findInceptionScore(samples, targets):
         pred = np.array(vals[n])
         for elem in pred:
             c_val += elem * math.log(elem*10)
-        kl += c_val       
+        kl += math.exp(c_val)       
     return kl/samples.shape[0]

@@ -166,7 +166,7 @@ def build_discriminator(input_img=None, input_text=None):
     from lasagne.layers import (InputLayer, Conv2DLayer, ReshapeLayer,
                                 DenseLayer, batch_norm, ConcatLayer)
     from lasagne.nonlinearities import LeakyRectify, sigmoid
-    lrelu = LeakyRectify(0.2)
+    lrelu = LeakyRectify(0.1)
     # input: (None, 1, 28, 28)
     layer = InputLayer(shape=(None, 1, 28, 28), input_var=input_img)
 
