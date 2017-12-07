@@ -316,27 +316,27 @@ def train_network(initial_eta):
         print("DISC (R/F) ACC VALUE AT EPOCH : ", epoch+1, " = ", acc_val)
 
         # And finally, we plot some generated data
-	if epoch%2==0:
-        	new_noise = lasagne.utils.floatX(np.random.rand(50, noise_dim))
-        	samples = gen_fn(new_noise, samples_text)
-        	try:
-            		import matplotlib.pyplot as plt
-        	except ImportError:
-            		pass
-        	else:
-            		plt.imsave(run+'/mnist_samples_'+str(epoch)+'.png',
-                       		(samples.reshape(5, 10, 28, 28)
-                               .transpose(0, 2, 1, 3)
-                               .reshape(5*28, 10*28)),
-                       		cmap='gray')
-            		curr_epoch_pred = pre.make_predictions(samples, gen_targets)
-            		print ("In this epoch = ", epoch+1, " : my generated sample pretrained acc is : ", curr_epoch_pred)
+        if epoch%2==0:
+            new_noise = lasagne.utils.floatX(np.random.rand(50, noise_dim))
+            samples = gen_fn(new_noise, samples_text)
+            try:
+                import matplotlib.pyplot as plt
+            except ImportError:
+                pass
+            else:
+                plt.imsave(run+'/mnist_samples_'+str(epoch)+'.png',
+                   		(samples.reshape(5, 10, 28, 28)
+                           .transpose(0, 2, 1, 3)
+                           .reshape(5*28, 10*28)),
+                   		cmap='gray')
+                curr_epoch_pred = pre.make_predictions(samples, gen_targets)
+                print ("In this epoch = ", epoch+1, " : my generated sample pretrained acc is : ", curr_epoch_pred)
 
-		        acc_val_sample = get_acc(new_noise, X_train[:50], samples_text)
-           	 	print ("in this epoch = ", epoch+1, " : my generated samples in the discrimantor being predicted as real had accuracy : ", 1-acc_val_sample[1])
+                acc_val_sample = get_acc(new_noise, X_train[:50], samples_text)
+                print ("in this epoch = ", epoch+1, " : my generated samples in the discrimantor being predicted as real had accuracy : ", 1-acc_val_sample[1])
 
-            		kl_divergence = pre.findInceptionScore(samples, gen_targets)
-            		print ("in this epoch = ", epoch+1, " : my generated samples had inception score : ", kl_divergence)
+                kl_divergence = pre.findInceptionScore(samples, gen_targets)
+                print ("in this epoch = ", epoch+1, " : my generated samples had inception score : ", kl_divergence)
 
         # After half the epochs, we start decaying the learn rate towards zero
         if epoch >= num_epochs // 2:
