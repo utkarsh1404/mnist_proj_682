@@ -359,7 +359,7 @@ if __name__ == '__main__':
     parser.add_argument('--batch_size', required=False, type=int, default=128)
     parser.add_argument('--layer_list', nargs='+', type=int, default=[250, 750, 1500, 5000])
 
-    parser.add_argument('--run_num', required=True, type=str, default=0)
+    parser.add_argument('--run', required=True, type=str, default=0)
 
     args = parser.parse_args()
 
@@ -370,7 +370,7 @@ if __name__ == '__main__':
     num_epochs=args.num_epochs
     loss_func=args.loss_func
     batch_sz = args.batch_size
-    run = args.run_num
+    run = args.run
 
     layer_list = args.layer_list
 

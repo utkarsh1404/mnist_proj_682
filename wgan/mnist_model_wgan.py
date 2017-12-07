@@ -186,7 +186,7 @@ def build_discriminator(input_img=None, input_text=None):
     for i in reversed(range(len(fclayer_list))):
         layer = batch_norm(DenseLayer(layer, fclayer_list[i], nonlinearity=lrelu))
     
-    layer = DenseLayer(layer, 1, nonlinearity=sigmoid)
+    layer = DenseLayer(layer, 1, nonlinearity=None, b=None)
     print ("Discriminator output:", layer.output_shape)
     return layer
     
@@ -244,69 +244,73 @@ def train_network(initial_eta):
             {all_layers[0]: lasagne.layers.get_output(generator), all_layers[2+3*len(layer_list)]: input_text})
 
     # Create loss expressions
-    generator_loss = None
-    discriminator_loss = None
+    generator_loss = fake_out.mean()
+    discriminator_loss = real_out.mean() - fake_out.mean()
 
-    if loss_func==0:
-        generator_loss = lasagne.objectives.squared_error(fake_out, 1).mean()
-        discriminator_loss = (lasagne.objectives.squared_error(real_out, 1) + lasagne.objectives.squared_error(fake_out, 0)).mean()
-    else:
-        generator_loss = lasagne.objectives.binary_crossentropy(fake_out, 1).mean()
-        discriminator_loss = (lasagne.objectives.binary_crossentropy(real_out, 1) + lasagne.objectives.binary_crossentropy(fake_out, 0)).mean()
-    
     # Create update expressions for training
     generator_params = lasagne.layers.get_all_params(generator, trainable=True)
     discriminator_params = lasagne.layers.get_all_params(discriminator, trainable=True)
     eta = theano.shared(lasagne.utils.floatX(initial_eta))
-    updates = lasagne.updates.adam(
-            generator_loss, generator_params, learning_rate=eta, beta1=0.5)
-    updates.update(lasagne.updates.adam(
-            discriminator_loss, discriminator_params, learning_rate=eta, beta1=0.5))
+    generator_updates = lasagne.updates.rmsprop(
+            generator_loss, generator_params, learning_rate=eta)
+    discriminator_updates = lasagne.updates.rmsprop(
+            discriminator_loss, discriminator_params, learning_rate=eta)
+
+    for param in lasagne.layers.get_all_params(discriminator, trainable=True, regularizable=True):
+        discriminator_updates[param] = T.clip(discriminator_updates[param], -clip , clip)
 
     # Compile a function performing a training step on a mini-batch (by giving
     # the updates dictionary) and returning the corresponding training loss:
-    train_fn = theano.function([noise_var, input_img, input_text],
-                               [(real_out > .5).mean(),
-                                (fake_out < .5).mean()],
-                               updates=updates)
+    train_fn_gen = theano.function([noise_var, input_text],
+                               generator_loss,
+                               updates=generator_updates)
+
+    train_fn_disc = theano.function([noise_var, input_img, input_text],
+                               discriminator_loss,
+                               updates=discriminator_updates)
+ 
 
     # Compile another function generating some data
     gen_fn = theano.function([noise_var, input_text],
                              lasagne.layers.get_output(generator,
                                                        deterministic=True))
 
-    loss_func_calc = None
-    if loss_func==0:
-        loss_func_calc = theano.function([noise_var, input_img, input_text],
-                        [(lasagne.objectives.squared_error(lasagne.layers.get_output(discriminator, deterministic=True), 1) + lasagne.objectives.squared_error(lasagne.layers.get_output(discriminator, {all_layers[0]: lasagne.layers.get_output(generator, deterministic=True), all_layers[2+3*len(layer_list)]: input_text}, deterministic=True), 0)).mean(),
-                         (lasagne.objectives.squared_error(lasagne.layers.get_output(discriminator, {all_layers[0]: lasagne.layers.get_output(generator, deterministic=True), all_layers[2+3*len(layer_list)]: input_text}, deterministic=True),1)).mean()])
-    else:
-        loss_func_calc = theano.function([noise_var, input_img, input_text],
-                        [(lasagne.objectives.binary_crossentropy(lasagne.layers.get_output(discriminator, deterministic=True), 1) + lasagne.objectives.binary_crossentropy(lasagne.layers.get_output(discriminator, {all_layers[0]: lasagne.layers.get_output(generator, deterministic=True), all_layers[2+3*len(layer_list)]: input_text}, deterministic=True), 0)).mean(),
-                         (lasagne.objectives.binary_crossentropy(lasagne.layers.get_output(discriminator, {all_layers[0]: lasagne.layers.get_output(generator, deterministic=True), all_layers[2+3*len(layer_list)]: input_text}, deterministic=True),1)).mean()])
+    loss_func_calc = theano.function([noise_var, input_img, input_text],
+                        [(lasagne.layers.get_output(discriminator, deterministic=True).mean() - lasagne.layers.get_output(discriminator, {all_layers[0]: lasagne.layers.get_output(generator, deterministic=True), all_layers[2+3*len(layer_list)]: input_text}, deterministic=True).mean()),
+                         lasagne.layers.get_output(discriminator, {all_layers[0]: lasagne.layers.get_output(generator, deterministic=True), all_layers[2+3*len(layer_list)]: input_text}, deterministic=True).mean()])
+    
 
     get_acc = theano.function([noise_var, input_img, input_text],
-                              [(lasagne.layers.get_output(discriminator, deterministic=True) > .5).mean(),
-                               (lasagne.layers.get_output(discriminator, {all_layers[0] : lasagne.layers.get_output(generator, deterministic=True), all_layers[2+3*len(layer_list)] : input_text}, deterministic=True) < .5).mean()])
+                              [(lasagne.layers.get_output(discriminator, deterministic=True) > 0).mean(),
+                               (lasagne.layers.get_output(discriminator, {all_layers[0] : lasagne.layers.get_output(generator, deterministic=True), all_layers[2+3*len(layer_list)] : input_text}, deterministic=True) < 0).mean()])
 
     # Finally, launch the training loop.
     print("Starting training...")
     # We iterate over epochs:
     for epoch in range(num_epochs):
         # In each epoch, we do a full pass over the training data:
-        train_acc = 0
-        train_batches = 0
+        train_disc_acc = 0
+        train_gen_acc = 0
+        #train_batches = 0
         start_time = time.time()
+        for inner_loop in range(inner_epoch):
+            for batch in iterate_minibatches(X_train, X_train_text, batch_sz, shuffle=True):
+                noise = lasagne.utils.floatX(np.random.rand(len(inputs), noise_dim))
+                inputs, text = batch
+                train_disc_acc += np.array(train_fn_disc(noise, inputs, text))
+        #if epoch==19:
+        #    inner_epoch = 5
+
         for batch in iterate_minibatches(X_train, X_train_text, batch_sz, shuffle=True):
-            inputs, text = batch
             noise = lasagne.utils.floatX(np.random.rand(len(inputs), noise_dim))
-            train_acc += np.array(train_fn(noise, inputs, text))
-            train_batches += 1
+            inputs, text = batch
+            train_gen_acc += np.array(train_fn_gen(noise, text))
+            #train_batches += 1         
 
         # Then we print the results for this epoch:
         print("Epoch {} of {} took {:.3f}s".format(
             epoch + 1, num_epochs, time.time() - start_time))
-        print(" disc (R/F) training acc (avg in an epoch):\t\t{}".format(train_acc / train_batches))
+        print(" disc (R/F) training acc (avg in an epoch) [DISC and GEN] : ", np.mean(train_disc_acc), " ; ", np.mean(train_gen_acc))
 
         #loss
         new_noise = lasagne.utils.floatX(np.random.rand(X_train.shape[0], noise_dim))
@@ -362,6 +366,8 @@ stride = None
 num_epochs=None
 loss_func=None
 batch_sz = None
+clip = None
+inner_epoch = None
 
 run = None
 
@@ -373,8 +379,10 @@ if __name__ == '__main__':
     parser.add_argument('--filter_sz', required=False, type=int, default=5)#odd
     parser.add_argument('--stride', required=False, type=int, default=2)
     parser.add_argument('--num_epochs', required=False, type=int, default=10)
+    parser.add_argument('--inner_epoch', required=False, type=int, default=5)
     parser.add_argument('--loss_func', required=False, type=int, default=0)
-    parser.add_argument('--lr', required=False, type=float, default=2e-4)
+    parser.add_argument('--lr', required=False, type=float, default=4e-5)
+    parser.add_argument('--clip', required=False, type=float, default=0.01)
     parser.add_argument('--batch_size', required=False, type=int, default=128)
     parser.add_argument('--layer_list', nargs='+', type=int, default=[128,64])
     parser.add_argument('--fclayer_list', nargs='+', type=int, default=[1024])
@@ -391,6 +399,8 @@ if __name__ == '__main__':
     loss_func=args.loss_func
     batch_sz = args.batch_size
     run = args.run
+    clip = args.clip
+    inner_epoch = args.inner_epoch
 
     layer_list = args.layer_list
     fclayer_list = args.fclayer_list
