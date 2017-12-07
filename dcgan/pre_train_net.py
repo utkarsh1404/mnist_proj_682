@@ -72,7 +72,7 @@ predict = theano.function([input_var], test_prediction)
 #print (np.array((train_fn(np.reshape(x[1],(1,1,28,28))))))
 
 
-def make_prediction(samples, targets):
+def make_predictions(samples, targets):
     vals = predict(samples)
     acc_val = 0.0
     for n in range(len(targets)):

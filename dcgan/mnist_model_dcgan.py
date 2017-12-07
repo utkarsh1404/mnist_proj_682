@@ -18,8 +18,8 @@ import pre_train_net as pre
 # This is just some way of getting the MNIST dataset from an online location
 # and loading it into numpy arrays. It doesn't involve Lasagne at all.
 
-X_train_img, X_train_text, y_train, X_val_img, X_val_text, y_val, X_test_img, X_test_text, y_test = None, None, None, None, None, None, None, None, None, None
-word2vec = np.load('~/mnist_proj_682/word2vec_digits.npy').item()
+X_train_img, X_train_text, y_train, X_val_img, X_val_text, y_val, X_test_img, X_test_text, y_test = None, None, None, None, None, None, None, None, None
+word2vec = np.load('/home/utkarsh1404/mnist_proj_682/word2vec_digits.npy').item()
 
 samples_text = np.zeros((50,1,300))
 gen_targets = []
@@ -155,7 +155,7 @@ def build_generator(input_noise=None, input_text=None):
     layer = batch_norm(DenseLayer(layer, layer_list[0]*newPS*newPS))
     layer = ReshapeLayer(layer, ([0], layer_list[0], newPS, newPS))
     
-    for i in range(len(1, layer_list)):
+    for i in range(1,len(layer_list)):
         layer = batch_norm(Deconv2DLayer(layer, layer_list[i], filter_sz, stride=stride, pad=(filter_sz-1)/2))
     layer = Deconv2DLayer(layer, 1, filter_sz, stride=stride, pad=(filter_sz-1)/2,
                           nonlinearity=sigmoid)
@@ -218,7 +218,7 @@ def iterate_minibatches(inputs, text, batchsize, shuffle=False):
 # more functions to better separate the code, but it wouldn't make it any
 # easier to read.
 
-def train_network(initial_eta=lr):
+def train_network(initial_eta):
     # Load the dataset
     print("Loading data...")
     X_train, X_train_text, y_train, X_val, X_val_text, y_val, X_test, X_test_text, y_test = load_dataset()
@@ -275,13 +275,13 @@ def train_network(initial_eta=lr):
                              lasagne.layers.get_output(generator,
                                                        deterministic=True))
 
-    loss_func = None
+    loss_func_calc = None
     if loss_func==0:
-        loss_func = theano.function([noise_var, input_img, input_text],
+        loss_func_calc = theano.function([noise_var, input_img, input_text],
                         [(lasagne.objectives.squared_error(lasagne.layers.get_output(discriminator, deterministic=True), 1) + lasagne.objectives.squared_error(lasagne.layers.get_output(discriminator, {all_layers[0]: lasagne.layers.get_output(generator, deterministic=True), all_layers[2+3*len(layer_list)]: input_text}, deterministic=True), 0)).mean(),
                          (lasagne.objectives.squared_error(lasagne.layers.get_output(discriminator, {all_layers[0]: lasagne.layers.get_output(generator, deterministic=True), all_layers[2+3*len(layer_list)]: input_text}, deterministic=True),1)).mean()])
     else:
-        loss_func = theano.function([noise_var, input_img, input_text],
+        loss_func_calc = theano.function([noise_var, input_img, input_text],
                         [(lasagne.objectives.binary_crossentropy(lasagne.layers.get_output(discriminator, deterministic=True), 1) + lasagne.objectives.binary_crossentropy(lasagne.layers.get_output(discriminator, {all_layers[0]: lasagne.layers.get_output(generator, deterministic=True), all_layers[2+3*len(layer_list)]: input_text}, deterministic=True), 0)).mean(),
                          (lasagne.objectives.binary_crossentropy(lasagne.layers.get_output(discriminator, {all_layers[0]: lasagne.layers.get_output(generator, deterministic=True), all_layers[2+3*len(layer_list)]: input_text}, deterministic=True),1)).mean()])
 
@@ -310,7 +310,7 @@ def train_network(initial_eta=lr):
 
         #loss
         new_noise = lasagne.utils.floatX(np.random.rand(X_train.shape[0], noise_dim))
-        loss_val = loss_func(new_noise, X_train, X_train_text)
+        loss_val = loss_func_calc(new_noise, X_train, X_train_text)
         acc_val = get_acc(new_noise, X_train, X_train_text)
         print("DISC/GEN LOSS VALUE AT EPOCH : ", epoch+1, " = ", loss_val)
         print("DISC (R/F) ACC VALUE AT EPOCH : ", epoch+1, " = ", acc_val)
