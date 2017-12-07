@@ -10,6 +10,8 @@ import theano.tensor as T
 
 import lasagne
 
+import math
+
 def build_cnn(input_var=None):
     # As a third model, we'll create a CNN of two convolution + pooling stages
     # and a fully-connected hidden layer in front of the output layer.
