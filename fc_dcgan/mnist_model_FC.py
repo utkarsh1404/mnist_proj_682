@@ -159,6 +159,7 @@ def build_discriminator(input_img=None, input_text=None):
     lrelu = LeakyRectify(0.2)
     # input: (None, 1, 28, 28)
     layer = InputLayer(shape=(None, 1, 28, 28), input_var=input_img)
+    layer = ReshapeLayer(layer, ([0], 1*28*28))
     layer2 = InputLayer(shape=(None,1,300), input_var=input_text)
     layer2 = ReshapeLayer(layer2, ([0], 1*300))
 
@@ -222,7 +223,7 @@ def train_network(initial_eta):
     real_out = lasagne.layers.get_output(discriminator)
     # Create expression for passing fake data through the discriminator
     fake_out = lasagne.layers.get_output(discriminator,
-            {all_layers[0]: lasagne.layers.get_output(generator), all_layers[2+3*len(layer_list)]: input_text})
+            {all_layers[0]: lasagne.layers.get_output(generator), all_layers[2]: input_text})
 
     # Create loss expressions
     generator_loss = None
@@ -259,16 +260,16 @@ def train_network(initial_eta):
     loss_func_calc = None
     if loss_func==0:
         loss_func_calc = theano.function([noise_var, input_img, input_text],
-                        [(lasagne.objectives.squared_error(lasagne.layers.get_output(discriminator, deterministic=True), 1) + lasagne.objectives.squared_error(lasagne.layers.get_output(discriminator, {all_layers[0]: lasagne.layers.get_output(generator, deterministic=True), all_layers[2+3*len(layer_list)]: input_text}, deterministic=True), 0)).mean(),
-                         (lasagne.objectives.squared_error(lasagne.layers.get_output(discriminator, {all_layers[0]: lasagne.layers.get_output(generator, deterministic=True), all_layers[2+3*len(layer_list)]: input_text}, deterministic=True),1)).mean()])
+                        [(lasagne.objectives.squared_error(lasagne.layers.get_output(discriminator, deterministic=True), 1) + lasagne.objectives.squared_error(lasagne.layers.get_output(discriminator, {all_layers[0]: lasagne.layers.get_output(generator, deterministic=True), all_layers[2]: input_text}, deterministic=True), 0)).mean(),
+                         (lasagne.objectives.squared_error(lasagne.layers.get_output(discriminator, {all_layers[0]: lasagne.layers.get_output(generator, deterministic=True), all_layers[2]: input_text}, deterministic=True),1)).mean()])
     else:
         loss_func_calc = theano.function([noise_var, input_img, input_text],
-                        [(lasagne.objectives.binary_crossentropy(lasagne.layers.get_output(discriminator, deterministic=True), 1) + lasagne.objectives.binary_crossentropy(lasagne.layers.get_output(discriminator, {all_layers[0]: lasagne.layers.get_output(generator, deterministic=True), all_layers[2+3*len(layer_list)]: input_text}, deterministic=True), 0)).mean(),
-                         (lasagne.objectives.binary_crossentropy(lasagne.layers.get_output(discriminator, {all_layers[0]: lasagne.layers.get_output(generator, deterministic=True), all_layers[2+3*len(layer_list)]: input_text}, deterministic=True),1)).mean()])
+                        [(lasagne.objectives.binary_crossentropy(lasagne.layers.get_output(discriminator, deterministic=True), 1) + lasagne.objectives.binary_crossentropy(lasagne.layers.get_output(discriminator, {all_layers[0]: lasagne.layers.get_output(generator, deterministic=True), all_layers[2]: input_text}, deterministic=True), 0)).mean(),
+                         (lasagne.objectives.binary_crossentropy(lasagne.layers.get_output(discriminator, {all_layers[0]: lasagne.layers.get_output(generator, deterministic=True), all_layers[2]: input_text}, deterministic=True),1)).mean()])
 
     get_acc = theano.function([noise_var, input_img, input_text],
                               [(lasagne.layers.get_output(discriminator, deterministic=True) > .5).mean(),
-                               (lasagne.layers.get_output(discriminator, {all_layers[0] : lasagne.layers.get_output(generator, deterministic=True), all_layers[2+3*len(layer_list)] : input_text}, deterministic=True) < .5).mean()])
+                               (lasagne.layers.get_output(discriminator, {all_layers[0] : lasagne.layers.get_output(generator, deterministic=True), all_layers[2] : input_text}, deterministic=True) < .5).mean()])
 
     # Finally, launch the training loop.
     print("Starting training...")
