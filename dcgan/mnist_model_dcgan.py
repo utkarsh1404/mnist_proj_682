@@ -11,7 +11,7 @@ import theano.tensor as T
 
 import lasagne
 
-import ...pretrained_mnist_net.pre_train_net as pre
+import pre_train_net as pre
 
 
 # ################## Download and prepare the MNIST dataset ##################
