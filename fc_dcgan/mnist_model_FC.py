@@ -336,7 +336,6 @@ def train_network(initial_eta):
 
 
 layer_list = None
-fclayer_list = None
 tr_data_sz = None
 noise_dim = None
 filter_sz = None
@@ -374,7 +373,6 @@ if __name__ == '__main__':
     run = args.run_num
 
     layer_list = args.layer_list
-    fclayer_list = args.fclayer_list
 
     lr = args.lr
 
