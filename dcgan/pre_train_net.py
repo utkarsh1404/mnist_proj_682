@@ -85,13 +85,27 @@ def make_predictions(samples, targets):
     return acc_val/len(targets)
 
 
+dct = {0: 5923, 1: 6742, 2: 5958, 3: 6131, 4: 5842, 5: 5421, 6: 5918, 7: 6265, 8: 5851, 9: 5949}
+
 def findInceptionScore(samples, targets):
     vals = predict(samples)
     kl = 0.0
     for n in range(samples.shape[0]):
         c_val = 0.0
-        pred = np.array(vals[n])
+        pred = vals[n]
         for elem in pred:
             c_val += elem * math.log(elem*10)
-        kl += math.exp(c_val)       
-    return kl/samples.shape[0]
+        kl += c_val       
+    kl_score = math.exp(kl/samples.shape[0])
+
+    mode_score = 0.0
+    for n in range(samples.shape[0]):
+        c_val = 0.0
+        pred = vals[n]
+        #trgt = targets[n]
+        for idx in range(len(pred)):
+            c_val += ((pred[idx] * math.log(pred[idx]/(dct[idx]/60000.0))) - (0.1 * math.log(0.1/(dct[idx]/60000.0))))
+        mode_score += c_val       
+    mode_score = math.exp(mode_score/samples.shape[0])
+
+    return kl_score, mode_score

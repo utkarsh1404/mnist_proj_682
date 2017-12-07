@@ -335,8 +335,8 @@ def train_network(initial_eta):
                 acc_val_sample = get_acc(new_noise, X_train[:50], samples_text)
                 print ("in this epoch = ", epoch+1, " : my generated samples in the discrimantor being predicted as real had accuracy : ", 1-acc_val_sample[1])
 
-                kl_divergence = pre.findInceptionScore(samples, gen_targets)
-                print ("in this epoch = ", epoch+1, " : my generated samples had inception score : ", kl_divergence)
+                kl_divergence, mode_score = pre.findInceptionScore(samples, gen_targets)
+                print ("in this epoch = ", epoch+1, " : my generated samples had inception score : ", kl_divergence, " ; ", mode_score)
 
         # After half the epochs, we start decaying the learn rate towards zero
         if epoch >= num_epochs // 2:
