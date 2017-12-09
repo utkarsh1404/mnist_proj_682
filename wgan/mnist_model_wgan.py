@@ -293,7 +293,6 @@ def train_network(initial_eta):
         # In each epoch, we do a full pass over the training data:
         start_time = time.time()
         batches = iterate_minibatches(X_train, X_train_text, batch_sz, shuffle=True)
-        print batches
         train_disc_acc = 0.0
         train_gen_acc = 0.0
         size = range(len(batches))
