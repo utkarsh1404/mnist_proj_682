@@ -202,6 +202,7 @@ def build_discriminator(input_img=None, input_text=None):
 
 def iterate_minibatches(inputs, text, batchsize, shuffle=False):
     assert len(inputs) == len(text)
+    lst = []
     if shuffle:
         indices = np.arange(len(inputs))
         np.random.shuffle(indices)
@@ -210,7 +211,8 @@ def iterate_minibatches(inputs, text, batchsize, shuffle=False):
             excerpt = indices[start_idx:start_idx + batchsize]
         else:
             excerpt = slice(start_idx, start_idx + batchsize)
-        yield inputs[excerpt], text[excerpt]
+        lst.append((inputs[excerpt], text[excerpt]))   
+    return lst
 
 
 # ############################## Main program ################################
@@ -291,6 +293,7 @@ def train_network(initial_eta):
         # In each epoch, we do a full pass over the training data:
         start_time = time.time()
         batches = iterate_minibatches(X_train, X_train_text, batch_sz, shuffle=True)
+        print batches
         train_disc_acc = 0.0
         train_gen_acc = 0.0
         size = range(len(batches))
