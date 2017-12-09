@@ -295,7 +295,7 @@ def train_network(initial_eta):
         batches = iterate_minibatches(X_train, X_train_text, batch_sz, shuffle=True)
         train_disc_acc = 0.0
         train_gen_acc = 0.0
-        size = range(len(batches))
+        size = len(batches)
         i = 0
         while i<size:
             curr_inner_loop = None
