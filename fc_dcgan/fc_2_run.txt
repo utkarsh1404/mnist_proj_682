@@ -1,0 +1,236 @@
+LOADED PRETRAINED...
+Loading data...
+Building model and compiling functions...
+Generator output: (None, 1, 28, 28)
+Discriminator output: (None, 1)
+LAYERS: 
+[<lasagne.layers.input.InputLayer object at 0x7f5879cf4650>, <lasagne.layers.shape.ReshapeLayer object at 0x7f5879cf4690>, <lasagne.layers.input.InputLayer object at 0x7f5879cf46d0>, <lasagne.layers.shape.ReshapeLayer object at 0x7f5879cf4710>, <lasagne.layers.merge.ConcatLayer object at 0x7f5879cf4750>, <lasagne.layers.dense.DenseLayer object at 0x7f5879cf47d0>, <lasagne.layers.normalization.BatchNormLayer object at 0x7f5879cf4a10>, <lasagne.layers.special.NonlinearityLayer object at 0x7f5879cf4e90>, <lasagne.layers.dense.DenseLayer object at 0x7f5879d01050>, <lasagne.layers.normalization.BatchNormLayer object at 0x7f5879d01290>, <lasagne.layers.special.NonlinearityLayer object at 0x7f5879d01710>, <lasagne.layers.dense.DenseLayer object at 0x7f5879d01890>, <lasagne.layers.normalization.BatchNormLayer object at 0x7f5879d01ad0>, <lasagne.layers.special.NonlinearityLayer object at 0x7f5879d01f50>, <lasagne.layers.dense.DenseLayer object at 0x7f5879d08110>, <lasagne.layers.normalization.BatchNormLayer object at 0x7f5879d08350>, <lasagne.layers.special.NonlinearityLayer object at 0x7f5879d087d0>, <lasagne.layers.dense.DenseLayer object at 0x7f5879d08950>, <lasagne.layers.normalization.BatchNormLayer object at 0x7f5879d08b90>, <lasagne.layers.special.NonlinearityLayer object at 0x7f5879d13050>, <lasagne.layers.dense.DenseLayer object at 0x7f5879cf4790>]
+Starting training...
+Epoch 1 of 41 took 302.055s
+ disc (R/F) training acc (avg in an epoch):		[ 0.9164  0.7967]
+DISC/GEN LOSS VALUE AT EPOCH :  1  =  [array(0.05643074072652671), array(0.8626046900587433)]
+DISC (R/F) ACC VALUE AT EPOCH :  1  =  [array(0.9986), array(0.9512)]
+In this epoch =  1  : my generated sample pretrained acc is :  0.16
+in this epoch =  1  : my generated samples in the discrimantor being predicted as real had accuracy :  0.08
+in this epoch =  1  : my generated samples had inception score :  7.70539631786  ;  7.87730126358
+Epoch 2 of 41 took 301.425s
+ disc (R/F) training acc (avg in an epoch):		[ 0.9724  0.8784]
+DISC/GEN LOSS VALUE AT EPOCH :  2  =  [array(0.1431163828234115), array(0.5916741716131034)]
+DISC (R/F) ACC VALUE AT EPOCH :  2  =  [array(1.0), array(0.8897)]
+Epoch 3 of 41 took 298.362s
+ disc (R/F) training acc (avg in an epoch):		[ 0.9941  0.8939]
+DISC/GEN LOSS VALUE AT EPOCH :  3  =  [array(0.5440549193721965), array(0.6857226495938556)]
+DISC (R/F) ACC VALUE AT EPOCH :  3  =  [array(0.4276), array(0.8971)]
+In this epoch =  3  : my generated sample pretrained acc is :  0.24
+in this epoch =  3  : my generated samples in the discrimantor being predicted as real had accuracy :  0.1
+in this epoch =  3  : my generated samples had inception score :  3.76129727345  ;  3.81734575932
+Epoch 4 of 41 took 297.896s
+ disc (R/F) training acc (avg in an epoch):		[ 0.9819  0.8983]
+DISC/GEN LOSS VALUE AT EPOCH :  4  =  [array(0.1859707811136016), array(0.5298626159793622)]
+DISC (R/F) ACC VALUE AT EPOCH :  4  =  [array(0.965), array(0.8851)]
+Epoch 5 of 41 took 296.438s
+ disc (R/F) training acc (avg in an epoch):		[ 0.9992  0.8999]
+DISC/GEN LOSS VALUE AT EPOCH :  5  =  [array(1.0523917903882984), array(0.5230251896521936)]
+DISC (R/F) ACC VALUE AT EPOCH :  5  =  [array(0.1001), array(0.8956)]
+In this epoch =  5  : my generated sample pretrained acc is :  0.24
+in this epoch =  5  : my generated samples in the discrimantor being predicted as real had accuracy :  0.1
+in this epoch =  5  : my generated samples had inception score :  3.43189168983  ;  3.47750039519
+Epoch 6 of 41 took 294.238s
+ disc (R/F) training acc (avg in an epoch):		[ 0.9514  0.8922]
+DISC/GEN LOSS VALUE AT EPOCH :  6  =  [array(0.16209102645004178), array(0.5198393872482157)]
+DISC (R/F) ACC VALUE AT EPOCH :  6  =  [array(1.0), array(0.8904)]
+Epoch 7 of 41 took 295.283s
+ disc (R/F) training acc (avg in an epoch):		[ 0.9998  0.8998]
+DISC/GEN LOSS VALUE AT EPOCH :  7  =  [array(0.20724257833112866), array(0.5446389753687552)]
+DISC (R/F) ACC VALUE AT EPOCH :  7  =  [array(0.9238), array(0.8964)]
+In this epoch =  7  : my generated sample pretrained acc is :  0.3
+in this epoch =  7  : my generated samples in the discrimantor being predicted as real had accuracy :  0.1
+in this epoch =  7  : my generated samples had inception score :  3.2219426738  ;  3.25610448495
+Epoch 8 of 41 took 296.430s
+ disc (R/F) training acc (avg in an epoch):		[ 1.      0.8999]
+DISC/GEN LOSS VALUE AT EPOCH :  8  =  [array(0.272103942307985), array(0.47548068174159863)]
+DISC (R/F) ACC VALUE AT EPOCH :  8  =  [array(0.8673), array(0.8936)]
+Epoch 9 of 41 took 296.010s
+ disc (R/F) training acc (avg in an epoch):		[ 1.      0.8999]
+DISC/GEN LOSS VALUE AT EPOCH :  9  =  [array(0.7697870912195424), array(0.4209323306691693)]
+DISC (R/F) ACC VALUE AT EPOCH :  9  =  [array(0.2705), array(0.8663)]
+In this epoch =  9  : my generated sample pretrained acc is :  0.26
+in this epoch =  9  : my generated samples in the discrimantor being predicted as real had accuracy :  0.1
+in this epoch =  9  : my generated samples had inception score :  3.40170610455  ;  3.4378034162
+Epoch 10 of 41 took 297.442s
+ disc (R/F) training acc (avg in an epoch):		[ 1.      0.8999]
+DISC/GEN LOSS VALUE AT EPOCH :  10  =  [array(0.8845051272537219), array(0.4153207445062794)]
+DISC (R/F) ACC VALUE AT EPOCH :  10  =  [array(0.2046), array(0.8713)]
+Epoch 11 of 41 took 296.776s
+ disc (R/F) training acc (avg in an epoch):		[ 1.      0.8999]
+DISC/GEN LOSS VALUE AT EPOCH :  11  =  [array(0.885326754519689), array(0.3644726410768476)]
+DISC (R/F) ACC VALUE AT EPOCH :  11  =  [array(0.2083), array(0.8225)]
+In this epoch =  11  : my generated sample pretrained acc is :  0.24
+in this epoch =  11  : my generated samples in the discrimantor being predicted as real had accuracy :  0.18
+in this epoch =  11  : my generated samples had inception score :  4.31823289015  ;  4.38703249651
+Epoch 12 of 41 took 296.594s
+ disc (R/F) training acc (avg in an epoch):		[ 1.      0.8999]
+DISC/GEN LOSS VALUE AT EPOCH :  12  =  [array(0.7688651626038899), array(0.43451270813710324)]
+DISC (R/F) ACC VALUE AT EPOCH :  12  =  [array(0.2991), array(0.8572)]
+Epoch 13 of 41 took 296.360s
+ disc (R/F) training acc (avg in an epoch):		[ 1.      0.8999]
+DISC/GEN LOSS VALUE AT EPOCH :  13  =  [array(0.3534399582390724), array(0.3912837554139086)]
+DISC (R/F) ACC VALUE AT EPOCH :  13  =  [array(0.8), array(0.8564)]
+In this epoch =  13  : my generated sample pretrained acc is :  0.24
+in this epoch =  13  : my generated samples in the discrimantor being predicted as real had accuracy :  0.2
+in this epoch =  13  : my generated samples had inception score :  3.81866927032  ;  3.87682453036
+Epoch 14 of 41 took 296.405s
+ disc (R/F) training acc (avg in an epoch):		[ 1.      0.8999]
+DISC/GEN LOSS VALUE AT EPOCH :  14  =  [array(0.29138464964664956), array(0.40964406455009195)]
+DISC (R/F) ACC VALUE AT EPOCH :  14  =  [array(0.8821), array(0.8401)]
+Epoch 15 of 41 took 295.796s
+ disc (R/F) training acc (avg in an epoch):		[ 1.      0.8999]
+DISC/GEN LOSS VALUE AT EPOCH :  15  =  [array(0.2823480820111919), array(0.36187461748022254)]
+DISC (R/F) ACC VALUE AT EPOCH :  15  =  [array(0.9325), array(0.8015)]
+In this epoch =  15  : my generated sample pretrained acc is :  0.36
+in this epoch =  15  : my generated samples in the discrimantor being predicted as real had accuracy :  0.14
+in this epoch =  15  : my generated samples had inception score :  3.5525669219  ;  3.57225823695
+Epoch 16 of 41 took 297.084s
+ disc (R/F) training acc (avg in an epoch):		[ 1.      0.8999]
+DISC/GEN LOSS VALUE AT EPOCH :  16  =  [array(0.2446415460592057), array(0.39266510242251684)]
+DISC (R/F) ACC VALUE AT EPOCH :  16  =  [array(0.978), array(0.7995)]
+Epoch 17 of 41 took 297.808s
+ disc (R/F) training acc (avg in an epoch):		[ 1.      0.8999]
+DISC/GEN LOSS VALUE AT EPOCH :  17  =  [array(0.31708523278700634), array(0.47222693693593754)]
+DISC (R/F) ACC VALUE AT EPOCH :  17  =  [array(0.8018), array(0.8681)]
+In this epoch =  17  : my generated sample pretrained acc is :  0.12
+in this epoch =  17  : my generated samples in the discrimantor being predicted as real had accuracy :  0.2
+in this epoch =  17  : my generated samples had inception score :  6.56857824668  ;  6.71609533156
+Epoch 18 of 41 took 295.523s
+ disc (R/F) training acc (avg in an epoch):		[ 1.      0.8999]
+DISC/GEN LOSS VALUE AT EPOCH :  18  =  [array(0.41675465614566), array(0.46369109788587165)]
+DISC (R/F) ACC VALUE AT EPOCH :  18  =  [array(0.6838), array(0.7645)]
+Epoch 19 of 41 took 296.507s
+ disc (R/F) training acc (avg in an epoch):		[ 1.      0.9019]
+DISC/GEN LOSS VALUE AT EPOCH :  19  =  [array(0.8902417177430001), array(0.546843354569706)]
+DISC (R/F) ACC VALUE AT EPOCH :  19  =  [array(0.1137), array(0.9004)]
+In this epoch =  19  : my generated sample pretrained acc is :  0.1
+in this epoch =  19  : my generated samples in the discrimantor being predicted as real had accuracy :  0.14
+in this epoch =  19  : my generated samples had inception score :  8.07651763202  ;  8.26546815931
+Epoch 20 of 41 took 296.373s
+ disc (R/F) training acc (avg in an epoch):		[ 0.986   0.8769]
+DISC/GEN LOSS VALUE AT EPOCH :  20  =  [array(0.547830336829963), array(0.6197970547546235)]
+DISC (R/F) ACC VALUE AT EPOCH :  20  =  [array(0.2923), array(0.8911)]
+Epoch 21 of 41 took 297.300s
+ disc (R/F) training acc (avg in an epoch):		[ 0.8222  0.8582]
+DISC/GEN LOSS VALUE AT EPOCH :  21  =  [array(0.5011707853199125), array(0.8307129176356038)]
+DISC (R/F) ACC VALUE AT EPOCH :  21  =  [array(0.3169), array(0.8918)]
+In this epoch =  21  : my generated sample pretrained acc is :  0.24
+in this epoch =  21  : my generated samples in the discrimantor being predicted as real had accuracy :  0.12
+in this epoch =  21  : my generated samples had inception score :  3.04464126406  ;  3.06751697507
+Epoch 22 of 41 took 297.025s
+ disc (R/F) training acc (avg in an epoch):		[ 0.8875  0.8711]
+DISC/GEN LOSS VALUE AT EPOCH :  22  =  [array(0.43420687396540697), array(0.6531387187415029)]
+DISC (R/F) ACC VALUE AT EPOCH :  22  =  [array(0.5348), array(0.821)]
+Epoch 23 of 41 took 300.734s
+ disc (R/F) training acc (avg in an epoch):		[ 0.9835  0.892 ]
+DISC/GEN LOSS VALUE AT EPOCH :  23  =  [array(0.9112294687688869), array(0.4607063600733352)]
+DISC (R/F) ACC VALUE AT EPOCH :  23  =  [array(0.1066), array(0.8946)]
+In this epoch =  23  : my generated sample pretrained acc is :  0.24
+in this epoch =  23  : my generated samples in the discrimantor being predicted as real had accuracy :  0.12
+in this epoch =  23  : my generated samples had inception score :  4.48499728  ;  4.56430599676
+Epoch 24 of 41 took 303.833s
+ disc (R/F) training acc (avg in an epoch):		[ 0.8869  0.8796]
+DISC/GEN LOSS VALUE AT EPOCH :  24  =  [array(0.6177656200104368), array(0.5815615363356488)]
+DISC (R/F) ACC VALUE AT EPOCH :  24  =  [array(0.3721), array(0.7783)]
+Epoch 25 of 41 took 296.576s
+ disc (R/F) training acc (avg in an epoch):		[ 0.9796  0.8921]
+DISC/GEN LOSS VALUE AT EPOCH :  25  =  [array(1.0443230465010316), array(0.5682972136054409)]
+DISC (R/F) ACC VALUE AT EPOCH :  25  =  [array(0.1001), array(0.8981)]
+In this epoch =  25  : my generated sample pretrained acc is :  0.2
+in this epoch =  25  : my generated samples in the discrimantor being predicted as real had accuracy :  0.1
+in this epoch =  25  : my generated samples had inception score :  4.27725989023  ;  4.34849768987
+Epoch 26 of 41 took 295.954s
+ disc (R/F) training acc (avg in an epoch):		[ 1.      0.8999]
+DISC/GEN LOSS VALUE AT EPOCH :  26  =  [array(0.9878912571359022), array(0.4477988273960293)]
+DISC (R/F) ACC VALUE AT EPOCH :  26  =  [array(0.1187), array(0.8368)]
+Epoch 27 of 41 took 295.243s
+ disc (R/F) training acc (avg in an epoch):		[ 0.9998  0.8998]
+DISC/GEN LOSS VALUE AT EPOCH :  27  =  [array(1.038590268220869), array(0.44405084287911323)]
+DISC (R/F) ACC VALUE AT EPOCH :  27  =  [array(0.1003), array(0.807)]
+In this epoch =  27  : my generated sample pretrained acc is :  0.12
+in this epoch =  27  : my generated samples in the discrimantor being predicted as real had accuracy :  0.22
+in this epoch =  27  : my generated samples had inception score :  3.05161806257  ;  3.09202742753
+Epoch 28 of 41 took 295.980s
+ disc (R/F) training acc (avg in an epoch):		[ 1.      0.8999]
+DISC/GEN LOSS VALUE AT EPOCH :  28  =  [array(0.6465967957787709), array(0.3651985843224002)]
+DISC (R/F) ACC VALUE AT EPOCH :  28  =  [array(0.4498), array(0.7099)]
+Epoch 29 of 41 took 299.325s
+ disc (R/F) training acc (avg in an epoch):		[ 0.917  0.863]
+DISC/GEN LOSS VALUE AT EPOCH :  29  =  [array(0.5932379300798944), array(0.5222494549251856)]
+DISC (R/F) ACC VALUE AT EPOCH :  29  =  [array(0.1065), array(0.7792)]
+In this epoch =  29  : my generated sample pretrained acc is :  0.1
+in this epoch =  29  : my generated samples in the discrimantor being predicted as real had accuracy :  0.24
+in this epoch =  29  : my generated samples had inception score :  3.69867411412  ;  3.76094125713
+Epoch 30 of 41 took 293.898s
+ disc (R/F) training acc (avg in an epoch):		[ 0.9998  0.8999]
+DISC/GEN LOSS VALUE AT EPOCH :  30  =  [array(0.15035231675921262), array(0.5655606733090969)]
+DISC (R/F) ACC VALUE AT EPOCH :  30  =  [array(1.0), array(0.886)]
+Epoch 31 of 41 took 294.422s
+ disc (R/F) training acc (avg in an epoch):		[ 1.      0.8998]
+DISC/GEN LOSS VALUE AT EPOCH :  31  =  [array(0.2210309691296978), array(0.42860103974330344)]
+DISC (R/F) ACC VALUE AT EPOCH :  31  =  [array(1.0), array(0.7645)]
+In this epoch =  31  : my generated sample pretrained acc is :  0.08
+in this epoch =  31  : my generated samples in the discrimantor being predicted as real had accuracy :  0.24
+in this epoch =  31  : my generated samples had inception score :  3.24339042864  ;  3.29102677516
+Epoch 32 of 41 took 294.960s
+ disc (R/F) training acc (avg in an epoch):		[ 1.      0.8999]
+DISC/GEN LOSS VALUE AT EPOCH :  32  =  [array(0.1897594099874378), array(0.47351361760491484)]
+DISC (R/F) ACC VALUE AT EPOCH :  32  =  [array(1.0), array(0.8524)]
+Epoch 33 of 41 took 295.628s
+ disc (R/F) training acc (avg in an epoch):		[ 1.      0.8998]
+DISC/GEN LOSS VALUE AT EPOCH :  33  =  [array(0.1814142638128056), array(0.526401033702329)]
+DISC (R/F) ACC VALUE AT EPOCH :  33  =  [array(1.0), array(0.807)]
+In this epoch =  33  : my generated sample pretrained acc is :  0.1
+in this epoch =  33  : my generated samples in the discrimantor being predicted as real had accuracy :  0.18
+in this epoch =  33  : my generated samples had inception score :  5.15293900563  ;  5.26107189992
+Epoch 34 of 41 took 294.664s
+ disc (R/F) training acc (avg in an epoch):		[ 1.      0.8999]
+DISC/GEN LOSS VALUE AT EPOCH :  34  =  [array(0.17630999165929406), array(0.5402423419150143)]
+DISC (R/F) ACC VALUE AT EPOCH :  34  =  [array(1.0), array(0.8304)]
+Epoch 35 of 41 took 294.523s
+ disc (R/F) training acc (avg in an epoch):		[ 1.      0.8998]
+DISC/GEN LOSS VALUE AT EPOCH :  35  =  [array(0.16404153649844658), array(0.5868264322631733)]
+DISC (R/F) ACC VALUE AT EPOCH :  35  =  [array(1.0), array(0.8357)]
+In this epoch =  35  : my generated sample pretrained acc is :  0.1
+in this epoch =  35  : my generated samples in the discrimantor being predicted as real had accuracy :  0.12
+in this epoch =  35  : my generated samples had inception score :  5.82778600892  ;  5.95268956074
+Epoch 36 of 41 took 300.928s
+ disc (R/F) training acc (avg in an epoch):		[ 1.      0.9342]
+DISC/GEN LOSS VALUE AT EPOCH :  36  =  [array(0.3087420088223707), array(0.25171374544746533)]
+DISC (R/F) ACC VALUE AT EPOCH :  36  =  [array(1.0), array(0.5171)]
+Epoch 37 of 41 took 296.968s
+ disc (R/F) training acc (avg in an epoch):		[ 1.      0.9171]
+DISC/GEN LOSS VALUE AT EPOCH :  37  =  [array(0.2643059119209666), array(0.3129642161491622)]
+DISC (R/F) ACC VALUE AT EPOCH :  37  =  [array(1.0), array(0.5294)]
+In this epoch =  37  : my generated sample pretrained acc is :  0.1
+in this epoch =  37  : my generated samples in the discrimantor being predicted as real had accuracy :  0.48
+in this epoch =  37  : my generated samples had inception score :  4.21982476655  ;  4.30085290189
+Epoch 38 of 41 took 294.670s
+ disc (R/F) training acc (avg in an epoch):		[ 0.9999  0.9094]
+DISC/GEN LOSS VALUE AT EPOCH :  38  =  [array(1.0020103174408561), array(0.521708525253683)]
+DISC (R/F) ACC VALUE AT EPOCH :  38  =  [array(0.1002), array(0.8196)]
+Epoch 39 of 41 took 296.040s
+ disc (R/F) training acc (avg in an epoch):		[ 1.      0.9091]
+DISC/GEN LOSS VALUE AT EPOCH :  39  =  [array(1.1658679906353961), array(0.3809740906971919)]
+DISC (R/F) ACC VALUE AT EPOCH :  39  =  [array(0.1001), array(0.6283)]
+In this epoch =  39  : my generated sample pretrained acc is :  0.1
+in this epoch =  39  : my generated samples in the discrimantor being predicted as real had accuracy :  0.46
+in this epoch =  39  : my generated samples had inception score :  5.00412125802  ;  5.10648657734
+Epoch 40 of 41 took 295.419s
+ disc (R/F) training acc (avg in an epoch):		[ 1.      0.9041]
+DISC/GEN LOSS VALUE AT EPOCH :  40  =  [array(0.2091474897832639), array(0.44822176105376976)]
+DISC (R/F) ACC VALUE AT EPOCH :  40  =  [array(1.0), array(0.7231)]
+Epoch 41 of 41 took 296.433s
+ disc (R/F) training acc (avg in an epoch):		[ 1.      0.8993]
+DISC/GEN LOSS VALUE AT EPOCH :  41  =  [array(0.2205880888197019), array(0.4377345026666275)]
+DISC (R/F) ACC VALUE AT EPOCH :  41  =  [array(1.0), array(0.6893)]
+In this epoch =  41  : my generated sample pretrained acc is :  0.1
+in this epoch =  41  : my generated samples in the discrimantor being predicted as real had accuracy :  0.24
+in this epoch =  41  : my generated samples had inception score :  4.80739826658  ;  4.90701496221
+

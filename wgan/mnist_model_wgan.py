@@ -299,10 +299,10 @@ def train_network(initial_eta):
         i = 0
         while i<size:
             curr_inner_loop = None
-            if epoch>=12:
+            if epoch>5:
                 curr_inner_loop = inner_epoch
             else:
-                curr_inner_loop = 50
+                curr_inner_loop = 10
             j = 0
             while j<curr_inner_loop and i<size:
                 inputs, text = batches[i]
@@ -387,10 +387,10 @@ if __name__ == '__main__':
     parser.add_argument('--filter_sz', required=False, type=int, default=5)#odd
     parser.add_argument('--stride', required=False, type=int, default=2)
     parser.add_argument('--num_epochs', required=False, type=int, default=10)
-    parser.add_argument('--inner_epoch', required=False, type=int, default=5)
+    parser.add_argument('--inner_epoch', required=False, type=int, default=2)
     parser.add_argument('--loss_func', required=False, type=int, default=0)
-    parser.add_argument('--lr', required=False, type=float, default=1e-4)
-    parser.add_argument('--clip', required=False, type=float, default=0.01)
+    parser.add_argument('--lr', required=False, type=float, default=1e-3)
+    parser.add_argument('--clip', required=False, type=float, default=0.075)
     parser.add_argument('--batch_size', required=False, type=int, default=100)
     parser.add_argument('--layer_list', nargs='+', type=int, default=[128,64])
     parser.add_argument('--fclayer_list', nargs='+', type=int, default=[1024])
