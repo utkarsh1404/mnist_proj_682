@@ -304,7 +304,7 @@ def train_network(initial_eta):
             else:
                 curr_inner_loop = 50
             j = 0
-            while j<curr_inner_loop:
+            while j<curr_inner_loop and i<size:
                 inputs, text = batches[i]
                 noise = lasagne.utils.floatX(np.random.rand(len(inputs), noise_dim))
                 train_disc_acc += np.array(train_fn_disc(noise, inputs, text))
