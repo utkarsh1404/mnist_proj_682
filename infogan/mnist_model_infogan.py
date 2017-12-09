@@ -306,7 +306,7 @@ def train_network(initial_eta):
                                     + TINY) + 0.5 * T.square((c_var - lasagne.layers.get_output(c_mean,
             {all_layers[0]: lasagne.layers.get_output(generator,deterministic=True), all_layers[2+3*len(layer_list)]: input_text},deterministic=True)) / (lasagne.layers.get_output(c_std,
                                     {all_layers[0]: lasagne.layers.get_output(generator,deterministic=True), all_layers[2+3*len(layer_list)]: input_text},deterministic=True) + TINY))).mean(),
-                         ##])
+                         ])
     
 
     get_acc = theano.function([noise_var, c_var, input_img, input_text],
