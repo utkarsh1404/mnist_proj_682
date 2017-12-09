@@ -295,16 +295,19 @@ def train_network(initial_eta):
                                                        deterministic=True))
     
     ##TODO
-    '''
+    
     loss_func_calc = theano.function([noise_var, c_var, input_img, input_text],
                         [   -T.log(lasagne.layers.get_output(discriminator, deterministic=True) + TINY).mean() 
-                          -  T.log(1. - (lasagne.layers.get_output(discriminator,
-                                                                  {all_layers[0]: lasagne.layers.get_output(generator, deterministic=True), all_layers[2+3*len(layer_list)]: input_text}
-                                                                  , deterministic=True)) 
+                          -T.log(1. - (lasagne.layers.get_output(discriminator,
+                                    {all_layers[0]: lasagne.layers.get_output(generator, deterministic=True), all_layers[2+3*len(layer_list)]: input_text}
+                                                                  ,deterministic=True)) 
                                         + TINY).mean() 
-                          + (T.log(out_gen_disc_c_std + TINY) + 0.5 * T.square((c_var - out_gen_disc_c_mean) /(out_gen_disc_c_std + TINY))).mean(),
-                         ##])
-    '''
+                          + (T.log(lasagne.layers.get_output(c_std, {all_layers[0]: lasagne.layers.get_output(generator,deterministic=True), all_layers[2+3*len(layer_list)]: input_text},deterministic=True)
+                                    + TINY) + 0.5 * T.square((c_var - lasagne.layers.get_output(c_mean,
+            {all_layers[0]: lasagne.layers.get_output(generator,deterministic=True), all_layers[2+3*len(layer_list)]: input_text},deterministic=True)) / (lasagne.layers.get_output(c_std,
+                                    {all_layers[0]: lasagne.layers.get_output(generator,deterministic=True), all_layers[2+3*len(layer_list)]: input_text},deterministic=True) + TINY))).mean(),
+                         ])
+    
 
     get_acc = theano.function([noise_var, c_var, input_img, input_text],
                               [(lasagne.layers.get_output(discriminator, deterministic=True) > .5).mean(),
