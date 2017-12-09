@@ -289,23 +289,29 @@ def train_network(initial_eta):
     # We iterate over epochs:
     for epoch in range(num_epochs):
         # In each epoch, we do a full pass over the training data:
-        train_disc_acc = 0
-        train_gen_acc = 0
-        #train_batches = 0
         start_time = time.time()
-        for inner_loop in range(inner_epoch):
-            for batch in iterate_minibatches(X_train, X_train_text, batch_sz, shuffle=True):
+        batches = iterate_minibatches(X_train, X_train_text, batch_sz, shuffle=True)
+        train_disc_acc = 0.0
+        train_gen_acc = 0.0
+        size = range(len(batches))
+        i = 0
+        while i<size:
+            curr_inner_loop = None
+            if epoch>=12:
+                curr_inner_loop = inner_epoch
+            else:
+                curr_inner_loop = 50
+            j = 0
+            while j<curr_inner_loop:
+                inputs, text = batches[i]
                 noise = lasagne.utils.floatX(np.random.rand(len(inputs), noise_dim))
-                inputs, text = batch
                 train_disc_acc += np.array(train_fn_disc(noise, inputs, text))
-        #if epoch==19:
-        #    inner_epoch = 5
-
-        for batch in iterate_minibatches(X_train, X_train_text, batch_sz, shuffle=True):
+                j+=1
+                i+=1
+            inputs, text = batches[i-1]
             noise = lasagne.utils.floatX(np.random.rand(len(inputs), noise_dim))
-            inputs, text = batch
             train_gen_acc += np.array(train_fn_gen(noise, text))
-            #train_batches += 1         
+                     
 
         # Then we print the results for this epoch:
         print("Epoch {} of {} took {:.3f}s".format(
@@ -381,9 +387,9 @@ if __name__ == '__main__':
     parser.add_argument('--num_epochs', required=False, type=int, default=10)
     parser.add_argument('--inner_epoch', required=False, type=int, default=5)
     parser.add_argument('--loss_func', required=False, type=int, default=0)
-    parser.add_argument('--lr', required=False, type=float, default=4e-5)
+    parser.add_argument('--lr', required=False, type=float, default=1e-4)
     parser.add_argument('--clip', required=False, type=float, default=0.01)
-    parser.add_argument('--batch_size', required=False, type=int, default=128)
+    parser.add_argument('--batch_size', required=False, type=int, default=100)
     parser.add_argument('--layer_list', nargs='+', type=int, default=[128,64])
     parser.add_argument('--fclayer_list', nargs='+', type=int, default=[1024])
 
