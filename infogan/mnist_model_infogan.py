@@ -376,7 +376,9 @@ def train_network(initial_eta):
         '''
     # Optionally, you could now dump the network weights to a file like this:
     np.savez(run+'/mnist_gen.npz', *lasagne.layers.get_all_param_values(generator))
-    np.savez(run+'/mnist_disc.npz', *lasagne.layers.get_all_param_values([discriminator, c_mean, c_var]))
+    np.savez(run+'/mnist_disc.npz', *lasagne.layers.get_all_param_values(discriminator))
+    np.savez(run+'/mnist_cmean.npz', *lasagne.layers.get_all_param_values(c_mean))
+    np.savez(run+'/mnist_cstd.npz', *lasagne.layers.get_all_param_values(c_var))
     #
     # And load them again later on like this:
     # with np.load('model.npz') as f:
