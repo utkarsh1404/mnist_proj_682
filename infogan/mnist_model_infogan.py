@@ -378,7 +378,7 @@ def train_network(initial_eta):
     np.savez(run+'/mnist_gen.npz', *lasagne.layers.get_all_param_values(generator))
     np.savez(run+'/mnist_disc.npz', *lasagne.layers.get_all_param_values(discriminator))
     np.savez(run+'/mnist_cmean.npz', *lasagne.layers.get_all_param_values(c_mean))
-    np.savez(run+'/mnist_cstd.npz', *lasagne.layers.get_all_param_values(c_var))
+    np.savez(run+'/mnist_cstd.npz', *lasagne.layers.get_all_param_values(c_std))
     #
     # And load them again later on like this:
     # with np.load('model.npz') as f:
