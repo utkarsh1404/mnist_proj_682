@@ -19,7 +19,7 @@ import pre_train_net as pre
 # and loading it into numpy arrays. It doesn't involve Lasagne at all.
 
 X_train_img, X_train_text, y_train, X_val_img, X_val_text, y_val, X_test_img, X_test_text, y_test = None, None, None, None, None, None, None, None, None
-word2vec = np.load('/home/utkarsh1404/mnist_proj_682/word2vec_digits.npy').item()
+word2vec = np.load('/home/kruti/mnist_proj_682/word2vec_digits.npy').item()
 
 samples_text = np.zeros((50,1,300))
 gen_targets = []
@@ -169,7 +169,7 @@ def build_generator(input_noise=None, input_c=None, input_text=None):
 def build_discriminator(input_img=None, input_text=None):
     from lasagne.layers import (InputLayer, Conv2DLayer, ReshapeLayer,
                                 DenseLayer, batch_norm, ConcatLayer)
-    from lasagne.nonlinearities import LeakyRectify, sigmoid
+    from lasagne.nonlinearities import LeakyRectify, sigmoid, linear
     lrelu = LeakyRectify(0.1)
     # input: (None, 1, 28, 28)
     layer = InputLayer(shape=(None, 1, 28, 28), input_var=input_img)
