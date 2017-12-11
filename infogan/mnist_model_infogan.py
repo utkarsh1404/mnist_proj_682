@@ -134,7 +134,7 @@ class Deconv2DLayer(lasagne.layers.Layer):
         return self.nonlinearity(conved)
 
 def clip(x):
-    return T.clip(x, -1e-8, 1-1e-8)
+    return T.clip(x, 1e-8, 1-1e-8)
 
 def build_generator(input_noise=None, input_c=None, input_text=None):
     from lasagne.layers import InputLayer, ReshapeLayer, DenseLayer, batch_norm, ConcatLayer
@@ -418,9 +418,9 @@ if __name__ == '__main__':
     parser.add_argument('--stride', required=False, type=int, default=2)
     parser.add_argument('--num_epochs', required=False, type=int, default=10)
     parser.add_argument('--loss_func', required=False, type=int, default=0)
-    parser.add_argument('--lr1', required=False, type=float, default=2e-3)
-    parser.add_argument('--lr2', required=False, type=float, default=5e-4)
-    parser.add_argument('--angle', required=False, type=float, default=0.75)
+    parser.add_argument('--lr1', required=False, type=float, default=1e-3)
+    parser.add_argument('--lr2', required=False, type=float, default=2e-4)
+    parser.add_argument('--angle', required=False, type=float, default=0.5)
     parser.add_argument('--batch_size', required=False, type=int, default=128)
     parser.add_argument('--layer_list', nargs='+', type=int, default=[128,64])
     parser.add_argument('--fclayer_list', nargs='+', type=int, default=[1024])
