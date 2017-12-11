@@ -196,7 +196,7 @@ def build_discriminator(input_img=None, input_text=None):
 
     layer = batch_norm(DenseLayer(layer , 128, nonlinearity=lrelu))
     l_Q_C_mean = DenseLayer(layer, 2, nonlinearity=linear)
-    l_Q_C_stddev = DenseLayer(layer, 2, nonlinearity=T.exp)
+    l_Q_C_stddev = DenseLayer(layer, 2, nonlinearity=lambda x:T.maximum(x, -16))
     print ("Discriminator output 2:", l_Q_C_mean.output_shape, l_Q_C_stddev.output_shape)
 
     return layer_main, l_Q_C_mean, l_Q_C_stddev
@@ -264,8 +264,8 @@ def train_network():
     loss_discriminator0 = -T.log(out_disc_main + TINY).mean() -  T.log(1. - out_gen_disc_main + TINY).mean()
     loss_generator0 = -T.log(out_gen_disc_main + TINY).mean()  
 
-    epsilon = (c_var - out_gen_disc_c_mean) /(out_gen_disc_c_std + TINY)
-    loss_Q_C = (T.log(out_gen_disc_c_std + TINY) + 0.5 * T.square(epsilon)).mean()  
+    epsilon = (c_var - out_gen_disc_c_mean) /(T.exp(out_gen_disc_c_std) + TINY)
+    loss_Q_C = ((out_gen_disc_c_std) + 0.5 * T.square(epsilon)).mean()  
 
     discriminator_loss = loss_discriminator0 + loss_Q_C
     generator_loss = loss_generator0 + loss_Q_C
@@ -295,7 +295,7 @@ def train_network():
                                                        deterministic=True))
     
     ##TODO
-    
+    '''
     loss_func_calc = theano.function([noise_var, c_var, input_img, input_text],
                         [   -T.log(lasagne.layers.get_output(discriminator, deterministic=True) + TINY).mean() 
                           -T.log(1. - (lasagne.layers.get_output(discriminator,
@@ -314,7 +314,7 @@ def train_network():
                                     + TINY) + 0.5 * T.square((c_var - lasagne.layers.get_output(c_mean,
             {all_layers[0]: lasagne.layers.get_output(generator,deterministic=True), all_layers[2+3*len(layer_list)]: input_text},deterministic=True)) / (lasagne.layers.get_output(c_std,
                                     {all_layers[0]: lasagne.layers.get_output(generator,deterministic=True), all_layers[2+3*len(layer_list)]: input_text},deterministic=True) + TINY))).mean()])
-    
+    '''
 
     get_acc = theano.function([noise_var, c_var, input_img, input_text],
                               [(lasagne.layers.get_output(discriminator, deterministic=True) > .5).mean(),
@@ -344,15 +344,16 @@ def train_network():
         print(" disc (R/F) training acc (avg in an epoch):\t\t{}".format(train_acc_d / train_batches))
 
         #loss
-        new_noise = lasagne.utils.floatX(np.random.uniform(low=-1, high=1, size=(X_train.shape[0], noise_dim)))
-        new_value_c = lasagne.utils.floatX(np.random.uniform(low=-1, high=1, size=(X_train.shape[0], 2)))
-        loss_val = loss_func_calc(new_noise, new_value_c, X_train, X_train_text)
-        acc_val = get_acc(new_noise, new_value_c, X_train, X_train_text)
-        print("DISC/GEN LOSS VALUE AT EPOCH : ", epoch+1, " = ", loss_val)
-        print("DISC (R/F) ACC VALUE AT EPOCH : ", epoch+1, " = ", acc_val)
-
+        
         # And finally, we plot some generated data
         if epoch%2==0:
+            new_noise = lasagne.utils.floatX(np.random.uniform(low=-1, high=1, size=(X_train.shape[0], noise_dim)))
+            new_value_c = lasagne.utils.floatX(np.random.uniform(low=-1, high=1, size=(X_train.shape[0], 2)))
+            #loss_val = loss_func_calc(new_noise, new_value_c, X_train, X_train_text)
+            acc_val = get_acc(new_noise, new_value_c, X_train, X_train_text)
+            #print("DISC/GEN LOSS VALUE AT EPOCH : ", epoch+1, " = ", loss_val)
+            print("DISC (R/F) ACC VALUE AT EPOCH : ", epoch+1, " = ", acc_val)
+            
             new_noise = lasagne.utils.floatX(np.random.uniform(low=-1, high=1, size=(50, noise_dim)))
             new_value_c = angle * np.ones((50,2))
             samples = gen_fn(new_noise, new_value_c, samples_text)
@@ -418,8 +419,8 @@ if __name__ == '__main__':
     parser.add_argument('--stride', required=False, type=int, default=2)
     parser.add_argument('--num_epochs', required=False, type=int, default=10)
     parser.add_argument('--loss_func', required=False, type=int, default=0)
-    parser.add_argument('--lr1', required=False, type=float, default=2e-3)
-    parser.add_argument('--lr2', required=False, type=float, default=6.5e-4)
+    parser.add_argument('--lr1', required=False, type=float, default=1e-3)
+    parser.add_argument('--lr2', required=False, type=float, default=2e-4)
     parser.add_argument('--angle', required=False, type=float, default=0.75)
     parser.add_argument('--batch_size', required=False, type=int, default=128)
     parser.add_argument('--layer_list', nargs='+', type=int, default=[128,64])
